@@ -34,7 +34,7 @@ spec:
         carto.run/workload-name: dev-control-plane
     spec:
       containers:
-      - image: gcr.io/fe-cpage/tap/workloads/dev-control-plane-workload-humana@sha256:9072d7773c27da8ad9c42647fae0da331b207c9f7b8100a3a921ad55148d9f49
+      - image: gcr.io/fe-cpage/tap/workloads/dev-control-plane-workload-humana@sha256:7790629159465ab7e3635dff60601a99c8a6b85edfb73d08961bec872cae6c09
         name: workload
         resources: {}
         securityContext:
