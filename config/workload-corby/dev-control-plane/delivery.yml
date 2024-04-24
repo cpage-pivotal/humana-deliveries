@@ -36,7 +36,7 @@ spec:
         kustomize.toolkit.fluxcd.io/namespace: tanzu-continuousdelivery-resources
     spec:
       containers:
-      - image: gcr.io/fe-cpage/tap/workloads/dev-control-plane-workload-corby@sha256:28fa79a14e410c5f56dd79aed2b4c1d21d1d85c69b52c97ec8bce01920bd8a20
+      - image: gcr.io/fe-cpage/tap/workloads/dev-control-plane-workload-corby@sha256:c293be670369c3500e82f18effac383de50bfb401c46643026e9263e46c04fce
         name: workload
         resources: {}
         securityContext:
