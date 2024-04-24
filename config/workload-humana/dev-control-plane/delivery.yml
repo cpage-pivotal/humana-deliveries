@@ -1,0 +1,50 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: dev-control-plane
+  annotations:
+    ootb.apps.tanzu.vmware.com/servicebinding-workload: "true"
+    ootb.apps.tanzu.vmware.com/apidescriptor-ref: "true"
+    kapp.k14s.io/change-rule: upsert after upserting servicebinding.io/ServiceBindings
+  labels:
+    app.kubernetes.io/part-of: dev-control-plane
+    apps.tanzu.vmware.com/scanning: "true"
+    apps.tanzu.vmware.com/workload-type: web
+    app.kubernetes.io/component: run
+    carto.run/workload-name: dev-control-plane
+spec:
+  template:
+    metadata:
+      annotations:
+        apps.tanzu.vmware.com/correlationid: https://github.com/cpage-pivotal/Dev.Control.Plane?sub_path=dcp
+        autoscaling.knative.dev/minScale: "1"
+        conventions.carto.run/applied-conventions: |-
+          spring-boot-convention/auto-configure-actuators-check
+          spring-boot-convention/is-native-app-check
+          spring-boot-convention/is-prometheus-enabled-check
+          spring-boot-convention/app-live-view-appflavour-check
+        developer.conventions/target-containers: workload
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"carto.run/v1alpha1","kind":"Workload","metadata":{"annotations":{},"labels":{"app.kubernetes.io/part-of":"dev-control-plane","apps.tanzu.vmware.com/scanning":"true","apps.tanzu.vmware.com/workload-type":"web"},"name":"dev-control-plane","namespace":"workload-humana"},"spec":{"params":[{"name":"annotations","value":{"autoscaling.knative.dev/minScale":"1"}}],"source":{"git":{"ref":{"branch":"supply-chain"},"url":"https://github.com/cpage-pivotal/Dev.Control.Plane"},"subPath":"dcp"}}}
+      labels:
+        app.kubernetes.io/component: run
+        app.kubernetes.io/part-of: dev-control-plane
+        apps.tanzu.vmware.com/scanning: "true"
+        apps.tanzu.vmware.com/workload-type: web
+        carto.run/workload-name: dev-control-plane
+    spec:
+      containers:
+      - image: gcr.io/fe-cpage/tap/workloads/dev-control-plane-workload-humana@sha256:9072d7773c27da8ad9c42647fae0da331b207c9f7b8100a3a921ad55148d9f49
+        name: workload
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          runAsNonRoot: true
+          runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
+      serviceAccountName: default
+
